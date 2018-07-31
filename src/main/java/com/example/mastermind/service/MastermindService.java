@@ -33,11 +33,12 @@ public class MastermindService {
 				buildStart(TOKEN_VALUE, NAME_VALUE));
 		if (null != mapReponseStart && !mapReponseStart.isEmpty()) {
 			Integer sizeValue = (Integer) mapReponseStart.get(SIZE);
-			if (null != sizeValue) {
+			if (null == sizeValue) {
 				sizeValue = 5;
 			}
 			String goodVal = "";
 			String wordKey = "";
+			Integer nbAppel = 0;
 			String[] tab = new String[sizeValue];
 			for (Integer k = 0; k < sizeValue; k++) {
 				tab[k] = "_";
@@ -48,15 +49,18 @@ public class MastermindService {
 					for (Integer i = 0; i < 10; i++) {
 						tab[j] = i.toString();
 						wordKey = castTab(tab);
-						// if("12345".equalsIgnoreCase(wordKey)) {
-						// System.out.println(wordKey);
-						// }
+//						 if("12345".equalsIgnoreCase(wordKey)) {
+//							 System.out.println(new Timestamp(new Date().getTime()));
+//							 System.out.println(wordKey);
+//						 }
 						Map<String, Object> mapReponse = sendWithMsgBody(TEST_URL_SERVER, "POST",
 								buildInfo(TOKEN_VALUE, wordKey));
+						nbAppel++;
 						if (null != mapReponse && !mapReponse.isEmpty()) {
 							Integer val = (Integer) mapReponse.get(GOOD);
 							goodVal = val.toString();
-							if (goodVal.equals(new Integer(j + 1).toString())) {
+							Integer index = j + 1;
+							if (goodVal.equals(index.toString())) {
 								break;
 							}
 						}
@@ -65,6 +69,7 @@ public class MastermindService {
 				}
 			}
 			System.out.println(wordKey);
+			System.out.println("nbr appels : " + nbAppel);
 		}
 		System.out.println(new Timestamp(new Date().getTime()));
 
