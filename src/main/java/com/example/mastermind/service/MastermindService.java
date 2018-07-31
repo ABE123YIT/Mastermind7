@@ -7,8 +7,10 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.json.JsonParseException;
@@ -32,44 +34,45 @@ public class MastermindService {
 		Map<String, Object> mapReponseStart = sendWithMsgBody(START_URL_SERVER, "POST",
 				buildStart(TOKEN_VALUE, NAME_VALUE));
 		if (null != mapReponseStart && !mapReponseStart.isEmpty()) {
+			System.out.println(new Timestamp(new Date().getTime()));
 			Integer sizeValue = (Integer) mapReponseStart.get(SIZE);
 			if (null == sizeValue) {
 				sizeValue = 5;
 			}
+			List<Integer> valuesGuess = filterValues(sizeValue);
 			String goodVal = "";
 			String wordKey = "";
-			Integer nbAppel = 0;
 			String[] tab = new String[sizeValue];
 			for (Integer k = 0; k < sizeValue; k++) {
 				tab[k] = "_";
 			}
-			System.out.println(new Timestamp(new Date().getTime()));
 			while (!goodVal.equalsIgnoreCase(sizeValue.toString())) {
 				for (Integer j = 0; j < sizeValue; j++) {
-					for (Integer i = 0; i < 10; i++) {
-						tab[j] = i.toString();
+					int i = 0;
+					while (!valuesGuess.isEmpty()) {
+						tab[j] = valuesGuess.get(i).toString();
 						wordKey = castTab(tab);
-//						 if("12345".equalsIgnoreCase(wordKey)) {
-//							 System.out.println(new Timestamp(new Date().getTime()));
-//							 System.out.println(wordKey);
-//						 }
+						// if ("12345".equalsIgnoreCase(wordKey)) {
+						// System.out.println(new Timestamp(new Date().getTime()));
+						// System.out.println(wordKey);
+						// }
 						Map<String, Object> mapReponse = sendWithMsgBody(TEST_URL_SERVER, "POST",
 								buildInfo(TOKEN_VALUE, wordKey));
-						nbAppel++;
 						if (null != mapReponse && !mapReponse.isEmpty()) {
 							Integer val = (Integer) mapReponse.get(GOOD);
 							goodVal = val.toString();
 							Integer index = j + 1;
 							if (goodVal.equals(index.toString())) {
+								valuesGuess.remove(i);
 								break;
 							}
 						}
+						i++;
 					}
 
 				}
 			}
 			System.out.println(wordKey);
-			System.out.println("nbr appels : " + nbAppel);
 		}
 		System.out.println(new Timestamp(new Date().getTime()));
 
@@ -141,6 +144,37 @@ public class MastermindService {
 			result = result + str;
 		}
 		return result;
+	}
+
+	private static List<Integer> filterValues(Integer sizeValue) throws IOException {
+		List<Integer> valuesGuess = new ArrayList<>();
+		String sMyGuess;
+		int[] myGuess = new int[sizeValue];
+		for (int i = 0; i < 10; i++) {
+			for (Integer k = 0; k < sizeValue; k++) {
+				myGuess[k] = i;
+			}
+			sMyGuess = getString(myGuess);
+			Map<String, Object> mapReponse = sendWithMsgBody(TEST_URL_SERVER, "POST", buildInfo(TOKEN_VALUE, sMyGuess));
+			if (null != mapReponse && !mapReponse.isEmpty()) {
+				Integer good = (Integer) mapReponse.get(GOOD);
+				if (good > 0) {
+					for (int m = 0; m < good; m++) {
+						valuesGuess.add(i);
+					}
+
+				}
+			}
+		}
+		return valuesGuess;
+	}
+
+	private static String getString(int[] Guess) {
+		String res = "";
+		for (int i : Guess) {
+			res += i;
+		}
+		return res;
 	}
 
 }
