@@ -15,6 +15,8 @@ import com.example.mastermind.utils.Utilitaires;
 
 @Service
 public class MastermindService {
+	 public static Logger logger = Logger.getLogger(MastermindService.class.getName());
+	
 
 	private MastermindService() {
 	}
@@ -24,7 +26,7 @@ public class MastermindService {
 	 * @throws IOException
 	 */
 	public static void execute() throws IOException {
-		Logger.getLogger(MastermindService.class.getName()).log(Level.INFO, null,
+		logger.log(Level.INFO, null,
 				"DEBUT : " + new Timestamp(new Date().getTime()));
 		Map<String, Object> mapReponseStart = Utilitaires.sendWithMsgBody(Utilitaires.URL_START,
 				Utilitaires.METHOD_POST, Utilitaires.buildStart(Utilitaires.TOKEN_VALUE, Utilitaires.NAME_VALUE));
@@ -43,9 +45,6 @@ public class MastermindService {
 			while (!valuesGuess.isEmpty()) {
 				tab[j] = valuesGuess.get(i).toString();
 				result = Utilitaires.tabToString(tab);
-				if ("12345".equalsIgnoreCase(result)) {
-					break;
-				}
 				Map<String, Object> mapReponse = Utilitaires.sendWithMsgBody(Utilitaires.URL_TEST,
 						Utilitaires.METHOD_POST, Utilitaires.buildInfo(Utilitaires.TOKEN_VALUE, result));
 				Integer val = null != mapReponse ? (Integer) mapReponse.get(Utilitaires.GOOD) : 0;
@@ -61,8 +60,8 @@ public class MastermindService {
 				break;
 			}
 		}
-		Logger.getLogger(MastermindService.class.getName()).log(Level.INFO, null, "Le code secret est : " + result);
-		Logger.getLogger(MastermindService.class.getName()).log(Level.INFO, null,
+		logger.log(Level.INFO, null, "Le code secret est : " + result);
+		logger.log(Level.INFO, null,
 				"FIN " + new Timestamp(new Date().getTime()));
 
 	}
