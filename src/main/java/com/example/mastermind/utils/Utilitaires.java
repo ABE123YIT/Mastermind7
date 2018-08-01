@@ -98,6 +98,14 @@ public class Utilitaires {
 		return result.toString();
 	}
 
+	public static String[] setTab(Integer sizeValue) {
+		String[] tab = new String[sizeValue];
+		for (Integer k = 0; k < sizeValue; k++) {
+			tab[k] = "_";
+		}
+		return tab;
+	}
+
 	public static String padding(String s, int n, int c) {
 		StringBuilder sb = new StringBuilder(s);
 		int sbLength = sb.length();
@@ -107,6 +115,21 @@ public class Utilitaires {
 			}
 		}
 		return sb.toString();
+	}
+
+	public static String getTestResult(String result) throws IOException {
+		Map<String, Object> mapReponse = sendWithMsgBody(URL_TEST, METHOD_POST, buildMsg(TOKEN_VALUE, result, RESULT));
+		Integer val = null != mapReponse ? (Integer) mapReponse.get(GOOD) : 0;
+		return val.toString();
+	}
+
+	public static Integer getSize() throws IOException {
+		Map<String, Object> mapReponseStart = sendWithMsgBody(URL_START, METHOD_POST,
+				buildMsg(TOKEN_VALUE, NAME_VALUE, NAME));
+		if (null != mapReponseStart.get(SIZE)) {
+			return (Integer) mapReponseStart.get(Utilitaires.SIZE);
+		}
+		return null;
 	}
 
 }

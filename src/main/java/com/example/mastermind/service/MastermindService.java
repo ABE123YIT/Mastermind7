@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,29 +25,20 @@ public class MastermindService {
 	 */
 	public static void execute() throws IOException {
 		logger.log(Level.INFO, null, "DEBUT : " + new Timestamp(new Date().getTime()));
-		Map<String, Object> mapReponseStart = Utilitaires.sendWithMsgBody(Utilitaires.URL_START,
-				Utilitaires.METHOD_POST,
-				Utilitaires.buildMsg(Utilitaires.TOKEN_VALUE, Utilitaires.NAME_VALUE, Utilitaires.NAME));
-		Integer sizeValue = null != mapReponseStart.get(Utilitaires.SIZE)
-				? (Integer) mapReponseStart.get(Utilitaires.SIZE)
-				: 8;
+		Integer sizeValue = Utilitaires.getSize();
+		if (null == sizeValue) {
+			sizeValue = 8;
+		}
 		List<Integer> valuesGuess = filterValues(sizeValue);
 		String goodVal = "";
 		String result = "";
-		String[] tab = new String[sizeValue];
-		for (Integer k = 0; k < sizeValue; k++) {
-			tab[k] = "_";
-		}
+		String[] tab = Utilitaires.setTab(sizeValue);
 		for (Integer j = 0; j < sizeValue; j++) {
 			int i = 0;
 			while (!valuesGuess.isEmpty()) {
 				tab[j] = valuesGuess.get(i).toString();
 				result = Utilitaires.tabToString(tab);
-				Map<String, Object> mapReponse = Utilitaires.sendWithMsgBody(Utilitaires.URL_TEST,
-						Utilitaires.METHOD_POST,
-						Utilitaires.buildMsg(Utilitaires.TOKEN_VALUE, result, Utilitaires.RESULT));
-				Integer val = null != mapReponse ? (Integer) mapReponse.get(Utilitaires.GOOD) : 0;
-				goodVal = val.toString();
+				goodVal = Utilitaires.getTestResult(result);
 				Integer index = j + 1;
 				if (goodVal.equals(index.toString())) {
 					valuesGuess.remove(i);
@@ -62,7 +52,6 @@ public class MastermindService {
 		}
 		logger.log(Level.INFO, null, "Le code secret est : " + result);
 		logger.log(Level.INFO, null, "FIN " + new Timestamp(new Date().getTime()));
-
 	}
 
 	/**
@@ -76,9 +65,7 @@ public class MastermindService {
 		String chaine = "";
 		for (int i = 0; i < 10; i++) {
 			chaine = Utilitaires.padding("", sizeValue.intValue(), i);
-			Map<String, Object> mapReponse = Utilitaires.sendWithMsgBody(Utilitaires.URL_TEST, Utilitaires.METHOD_POST,
-					Utilitaires.buildMsg(Utilitaires.TOKEN_VALUE, chaine, Utilitaires.RESULT));
-			Integer good = null != mapReponse ? (Integer) mapReponse.get(Utilitaires.GOOD) : 0;
+			Integer good = Integer.parseInt(Utilitaires.getTestResult(chaine));
 			if (good > 0) {
 				for (int m = 0; m < good; m++) {
 					valuesGuess.add(i);
