@@ -26,31 +26,27 @@ public class MastermindService {
 	public static void execute() throws IOException {
 		logger.log(Level.INFO, null, "DEBUT : " + new Timestamp(new Date().getTime()));
 		Integer sizeValue = Utilitaires.getSize();
-		if (null == sizeValue) {
-			sizeValue = 8;
-		}
-		List<Integer> valuesGuess = filterValues(sizeValue);
-		String goodVal = "";
-		String result = "";
-		String[] tab = Utilitaires.setTab(sizeValue);
-		for (Integer j = 0; j < sizeValue; j++) {
-			int i = 0;
-			while (!valuesGuess.isEmpty()) {
-				tab[j] = valuesGuess.get(i).toString();
-				result = Utilitaires.tabToString(tab);
-				goodVal = Utilitaires.getTestResult(result);
-				Integer index = j + 1;
-				if (goodVal.equals(index.toString())) {
-					valuesGuess.remove(i);
-					break;
+		if (null != sizeValue) {
+			List<Integer> valuesGuess = filterValues(sizeValue);
+			String goodVal = "";
+			String result = "";
+			String[] tab = Utilitaires.setTab(sizeValue);
+			for (Integer j = 0; j < sizeValue; j++) {
+				int i = 0;
+				while (!valuesGuess.isEmpty()) {
+					tab[j] = valuesGuess.get(i).toString();
+					result = Utilitaires.tabToString(tab);
+					goodVal = Utilitaires.getTestResult(result);
+					Integer index = j + 1;
+					if (goodVal.equals(index.toString())) {
+						valuesGuess.remove(i);
+						break;
+					}
+					i++;
 				}
-				i++;
 			}
-			if (goodVal.equalsIgnoreCase(sizeValue.toString())) {
-				break;
-			}
+			logger.log(Level.INFO, null, "Le code secret est : " + result);
 		}
-		logger.log(Level.INFO, null, "Le code secret est : " + result);
 		logger.log(Level.INFO, null, "FIN " + new Timestamp(new Date().getTime()));
 	}
 
