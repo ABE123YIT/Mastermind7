@@ -42,7 +42,7 @@ public class Utilitaires {
 	 * @param url
 	 * @param mtd
 	 * @param msg
-	 * @return
+	 * @return 
 	 * @throws IOException
 	 */
 	public static Map<String, Object> send(String url, String mtd, String msg) throws IOException {
