@@ -14,7 +14,7 @@ import com.example.mastermind.utils.Utilitaires;
 
 @Service
 public class MastermindService {
-	public static Logger logger = Logger.getLogger(MastermindService.class.getName());
+	public static final Logger logger = Logger.getLogger(MastermindService.class.getName());
 
 	private MastermindService() {
 	}

@@ -36,20 +36,28 @@ public class Utilitaires {
 	private Utilitaires() {
 	}
 
-	public static Map<String, Object> sendWithMsgBody(String url, String methode, String msgCorps) throws IOException {
+	/**
+	 * 
+	 * @param url
+	 * @param mtd
+	 * @param msg
+	 * @return
+	 * @throws IOException
+	 */
+	public static Map<String, Object> send(String url, String mtd, String msg) throws IOException {
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		con.setRequestMethod(methode);
-		if (!METHOD_GET.equalsIgnoreCase(methode)) {
+		con.setRequestMethod(mtd);
+		if (!METHOD_GET.equalsIgnoreCase(mtd)) {
 			con.setDoOutput(true);
 		}
 		con.setRequestProperty(CONTENT_TYPE, APP_JSON);
 		con.setRequestProperty(ACCEPT, APP_JSON);
 
 		OutputStreamWriter out = null;
-		if (!METHOD_GET.equalsIgnoreCase(methode)) {
+		if (!METHOD_GET.equalsIgnoreCase(mtd)) {
 			out = new OutputStreamWriter(con.getOutputStream(), UTF8);
-			out.write(msgCorps);
+			out.write(msg);
 			out.flush();
 			out.close();
 		}
@@ -59,18 +67,31 @@ public class Utilitaires {
 		while ((inputLine = in.readLine()) != null) {
 			response.append(inputLine);
 		}
-		Map<String, Object> linkedHashMapFromString = getLinkedHashMapFromString(response.toString());
+		Map<String, Object> linkedHashMapFromString = getMap(response.toString());
 		in.close();
 		con.disconnect();
 		return linkedHashMapFromString;
 	}
 
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
-	public static Map<String, Object> getLinkedHashMapFromString(String value) throws IOException {
+	public static Map<String, Object> getMap(String value) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.readValue(value, LinkedHashMap.class);
 	}
 
+	/**
+	 * 
+	 * @param token
+	 * @param result
+	 * @param propName
+	 * @return
+	 */
 	public static String buildMsg(String token, String result, String propName) {
 		StringBuilder build = new StringBuilder();
 		build.append(ACC_OPEN);
@@ -82,6 +103,11 @@ public class Utilitaires {
 		return build.toString();
 	}
 
+	/**
+	 * 
+	 * @param tab
+	 * @return
+	 */
 	public static String tabToString(String[] tab) {
 		StringBuilder result = new StringBuilder();
 		for (String str : tab) {
@@ -90,6 +116,11 @@ public class Utilitaires {
 		return result.toString();
 	}
 
+	/**
+	 * 
+	 * @param tab
+	 * @return
+	 */
 	public static String getString(int[] tab) {
 		StringBuilder result = new StringBuilder();
 		for (int i : tab) {
@@ -98,6 +129,11 @@ public class Utilitaires {
 		return result.toString();
 	}
 
+	/**
+	 * 
+	 * @param sizeValue
+	 * @return
+	 */
 	public static String[] setTab(Integer sizeValue) {
 		String[] tab = new String[sizeValue];
 		for (Integer k = 0; k < sizeValue; k++) {
@@ -106,25 +142,43 @@ public class Utilitaires {
 		return tab;
 	}
 
-	public static String padding(String s, int n, int c) {
-		StringBuilder sb = new StringBuilder(s);
+	/**
+	 * 
+	 * @param str
+	 * @param nbr
+	 * @param crt
+	 * @return
+	 */
+	public static String padding(String str, int nbr, int crt) {
+		StringBuilder sb = new StringBuilder(str);
 		int sbLength = sb.length();
-		if (n > 0 && n > sbLength) {
-			for (int i = 0; i < (n - sbLength); i++) {
-				sb.append(c);
+		if (nbr > 0 && nbr > sbLength) {
+			for (int i = 0; i < (nbr - sbLength); i++) {
+				sb.append(crt);
 			}
 		}
 		return sb.toString();
 	}
 
+	/**
+	 * 
+	 * @param result
+	 * @return
+	 * @throws IOException
+	 */
 	public static String getTestResult(String result) throws IOException {
-		Map<String, Object> mapReponse = sendWithMsgBody(URL_TEST, METHOD_POST, buildMsg(TOKEN_VALUE, result, RESULT));
+		Map<String, Object> mapReponse = send(URL_TEST, METHOD_POST, buildMsg(TOKEN_VALUE, result, RESULT));
 		Integer val = null != mapReponse ? (Integer) mapReponse.get(GOOD) : 0;
 		return val.toString();
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
 	public static Integer getSize() throws IOException {
-		Map<String, Object> mapReponseStart = sendWithMsgBody(URL_START, METHOD_POST,
+		Map<String, Object> mapReponseStart = send(URL_START, METHOD_POST,
 				buildMsg(TOKEN_VALUE, NAME_VALUE, NAME));
 		if (null != mapReponseStart.get(SIZE)) {
 			return (Integer) mapReponseStart.get(Utilitaires.SIZE);
