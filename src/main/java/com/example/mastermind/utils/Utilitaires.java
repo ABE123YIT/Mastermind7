@@ -37,6 +37,7 @@ public class Utilitaires {
 	}
 
 	/**
+	 * send to api
 	 * 
 	 * @param url
 	 * @param mtd
@@ -74,6 +75,7 @@ public class Utilitaires {
 	}
 
 	/**
+	 * get map
 	 * 
 	 * @param value
 	 * @return
@@ -86,6 +88,7 @@ public class Utilitaires {
 	}
 
 	/**
+	 * build a json message
 	 * 
 	 * @param token
 	 * @param result
@@ -104,6 +107,7 @@ public class Utilitaires {
 	}
 
 	/**
+	 * convert tab to string
 	 * 
 	 * @param tab
 	 * @return
@@ -117,6 +121,7 @@ public class Utilitaires {
 	}
 
 	/**
+	 * convert tab of int to string
 	 * 
 	 * @param tab
 	 * @return
@@ -130,6 +135,7 @@ public class Utilitaires {
 	}
 
 	/**
+	 * set a tab
 	 * 
 	 * @param sizeValue
 	 * @return
@@ -143,6 +149,7 @@ public class Utilitaires {
 	}
 
 	/**
+	 * adding a specified number of specified caracter to a specified string
 	 * 
 	 * @param str
 	 * @param nbr
@@ -161,6 +168,7 @@ public class Utilitaires {
 	}
 
 	/**
+	 * get good values of a code
 	 * 
 	 * @param result
 	 * @return
@@ -173,13 +181,13 @@ public class Utilitaires {
 	}
 
 	/**
+	 * get the size of the secret code
 	 * 
 	 * @return
 	 * @throws IOException
 	 */
 	public static Integer getSize() throws IOException {
-		Map<String, Object> mapReponseStart = send(URL_START, METHOD_POST,
-				buildMsg(TOKEN_VALUE, NAME_VALUE, NAME));
+		Map<String, Object> mapReponseStart = send(URL_START, METHOD_POST, buildMsg(TOKEN_VALUE, NAME_VALUE, NAME));
 		if (null != mapReponseStart.get(SIZE)) {
 			return (Integer) mapReponseStart.get(Utilitaires.SIZE);
 		}
