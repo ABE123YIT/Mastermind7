@@ -16,6 +16,7 @@ public class Utilitaires {
 	public static final String URL_TEST = "http://172.16.37.129/api/test";
 	public static final String URL_START = "http://172.16.37.129/api/start";
 	public static final String METHOD_POST = "POST";
+	public static final String METHOD_GET = "GET";
 	public static final String TOKEN = "token";
 	public static final String NAME = "name";
 	public static final String RESULT = "result";
@@ -23,6 +24,10 @@ public class Utilitaires {
 	public static final String SIZE = "size";
 	public static final String CONST1 = "\",\"";
 	public static final String CONST2 = "\":\"";
+	public static final String UTF8 = "UTF-8";
+	public static final String APP_JSON = "application/json";
+	public static final String CONTENT_TYPE = "Content-Type";
+	public static final String ACCEPT = "Accept";
 	public static final String NAME_VALUE = "Mastermind7";
 	public static final String TOKEN_VALUE = "tokenmm7";
 
@@ -33,20 +38,20 @@ public class Utilitaires {
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 		con.setRequestMethod(methode);
-		if (!"GET".equalsIgnoreCase(methode)) {
+		if (!METHOD_GET.equalsIgnoreCase(methode)) {
 			con.setDoOutput(true);
 		}
-		con.setRequestProperty("Content-Type", "application/json");
-		con.setRequestProperty("Accept", "application/json");
+		con.setRequestProperty(CONTENT_TYPE, APP_JSON);
+		con.setRequestProperty(ACCEPT, APP_JSON);
 
 		OutputStreamWriter out = null;
-		if (!"GET".equalsIgnoreCase(methode)) {
-			out = new OutputStreamWriter(con.getOutputStream(), "UTF-8");
+		if (!METHOD_GET.equalsIgnoreCase(methode)) {
+			out = new OutputStreamWriter(con.getOutputStream(), UTF8);
 			out.write(msgCorps);
 			out.flush();
 			out.close();
 		}
-		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), UTF8));
 		String inputLine;
 		StringBuilder response = new StringBuilder();
 		while ((inputLine = in.readLine()) != null) {
