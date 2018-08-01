@@ -43,9 +43,6 @@ public class MastermindService {
 			while (!valuesGuess.isEmpty()) {
 				tab[j] = valuesGuess.get(i).toString();
 				result = Utilitaires.tabToString(tab);
-				if ("12345".equalsIgnoreCase(result)) {
-					break;
-				}
 				Map<String, Object> mapReponse = Utilitaires.sendWithMsgBody(Utilitaires.URL_TEST,
 						Utilitaires.METHOD_POST, Utilitaires.buildInfo(Utilitaires.TOKEN_VALUE, result));
 				Integer val = null != mapReponse ? (Integer) mapReponse.get(Utilitaires.GOOD) : 0;
