@@ -15,8 +15,7 @@ import com.example.mastermind.utils.Utilitaires;
 
 @Service
 public class MastermindService {
-	 public static Logger logger = Logger.getLogger(MastermindService.class.getName());
-	
+	public static Logger logger = Logger.getLogger(MastermindService.class.getName());
 
 	private MastermindService() {
 	}
@@ -26,13 +25,12 @@ public class MastermindService {
 	 * @throws IOException
 	 */
 	public static void execute() throws IOException {
-		logger.log(Level.INFO, null,
-				"DEBUT : " + new Timestamp(new Date().getTime()));
+		logger.log(Level.INFO, null, "DEBUT : " + new Timestamp(new Date().getTime()));
 		Map<String, Object> mapReponseStart = Utilitaires.sendWithMsgBody(Utilitaires.URL_START,
 				Utilitaires.METHOD_POST, Utilitaires.buildStart(Utilitaires.TOKEN_VALUE, Utilitaires.NAME_VALUE));
 		Integer sizeValue = null != mapReponseStart.get(Utilitaires.SIZE)
 				? (Integer) mapReponseStart.get(Utilitaires.SIZE)
-				: 5;
+				: 8;
 		List<Integer> valuesGuess = filterValues(sizeValue);
 		String goodVal = "";
 		String result = "";
@@ -61,8 +59,7 @@ public class MastermindService {
 			}
 		}
 		logger.log(Level.INFO, null, "Le code secret est : " + result);
-		logger.log(Level.INFO, null,
-				"FIN " + new Timestamp(new Date().getTime()));
+		logger.log(Level.INFO, null, "FIN " + new Timestamp(new Date().getTime()));
 
 	}
 

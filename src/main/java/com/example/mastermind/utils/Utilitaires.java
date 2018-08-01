@@ -22,6 +22,8 @@ public class Utilitaires {
 	public static final String RESULT = "result";
 	public static final String GOOD = "good";
 	public static final String SIZE = "size";
+	public static final String ACC_OPEN = "{\"";
+	public static final String ACC_CLOSE = "\"}";
 	public static final String CONST1 = "\",\"";
 	public static final String CONST2 = "\":\"";
 	public static final String UTF8 = "UTF-8";
@@ -71,26 +73,23 @@ public class Utilitaires {
 
 	public static String buildInfo(String token, String result) {
 		StringBuilder build = new StringBuilder();
-		build.append("{\"");
+		build.append(ACC_OPEN);
 		build.append(TOKEN);
 		build.append(CONST2);
 		build.append(token).append(CONST1);
 		build.append(RESULT).append(CONST2).append(result);
-		build.append("\"}");
+		build.append(ACC_CLOSE);
 		return build.toString();
 	}
 
 	public static String buildStart(String token, String name) {
 		StringBuilder build = new StringBuilder();
-		build.append("{\"");
+		build.append(ACC_OPEN);
 		build.append(TOKEN);
 		build.append(CONST2);
 		build.append(token).append(CONST1);
-		// build.append(SIZE);
-		// build.append(CONST2);
-		// build.append("5").append(CONST1);
 		build.append(NAME).append(CONST2).append(name);
-		build.append("\"}");
+		build.append(ACC_CLOSE);
 		return build.toString();
 	}
 
