@@ -26,13 +26,13 @@ public class MastermindService {
 	 * 
 	 * @throws IOException
 	 */
-	public static void execute() throws IOException {
+	public static String execute() throws IOException {
 		logger.log(Level.INFO, null, "DEBUT : " + new Timestamp(new Date().getTime()));
+		String result = "";
 		Integer sizeValue = Utilitaires.getSize();
 		if (null != sizeValue) {
 			List<Integer> valuesGuess = filterValues(sizeValue);
 			String goodVal = "";
-			String result = "";
 			String[] tab = Utilitaires.setTab(sizeValue);
 			for (Integer j = 0; j < sizeValue; j++) {
 				int i = 0;
@@ -51,6 +51,7 @@ public class MastermindService {
 			logger.log(Level.INFO, null, "Le code secret est : " + result);
 		}
 		logger.log(Level.INFO, null, "FIN " + new Timestamp(new Date().getTime()));
+		return result;
 	}
 
 	/**
