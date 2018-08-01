@@ -71,24 +71,13 @@ public class Utilitaires {
 		return mapper.readValue(value, LinkedHashMap.class);
 	}
 
-	public static String buildInfo(String token, String result) {
+	public static String buildMsg(String token, String result, String propName) {
 		StringBuilder build = new StringBuilder();
 		build.append(ACC_OPEN);
 		build.append(TOKEN);
 		build.append(CONST2);
 		build.append(token).append(CONST1);
-		build.append(RESULT).append(CONST2).append(result);
-		build.append(ACC_CLOSE);
-		return build.toString();
-	}
-
-	public static String buildStart(String token, String name) {
-		StringBuilder build = new StringBuilder();
-		build.append(ACC_OPEN);
-		build.append(TOKEN);
-		build.append(CONST2);
-		build.append(token).append(CONST1);
-		build.append(NAME).append(CONST2).append(name);
+		build.append(propName).append(CONST2).append(result);
 		build.append(ACC_CLOSE);
 		return build.toString();
 	}

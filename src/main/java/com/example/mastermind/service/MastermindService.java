@@ -27,7 +27,8 @@ public class MastermindService {
 	public static void execute() throws IOException {
 		logger.log(Level.INFO, null, "DEBUT : " + new Timestamp(new Date().getTime()));
 		Map<String, Object> mapReponseStart = Utilitaires.sendWithMsgBody(Utilitaires.URL_START,
-				Utilitaires.METHOD_POST, Utilitaires.buildStart(Utilitaires.TOKEN_VALUE, Utilitaires.NAME_VALUE));
+				Utilitaires.METHOD_POST,
+				Utilitaires.buildMsg(Utilitaires.TOKEN_VALUE, Utilitaires.NAME_VALUE, Utilitaires.NAME));
 		Integer sizeValue = null != mapReponseStart.get(Utilitaires.SIZE)
 				? (Integer) mapReponseStart.get(Utilitaires.SIZE)
 				: 8;
@@ -44,7 +45,8 @@ public class MastermindService {
 				tab[j] = valuesGuess.get(i).toString();
 				result = Utilitaires.tabToString(tab);
 				Map<String, Object> mapReponse = Utilitaires.sendWithMsgBody(Utilitaires.URL_TEST,
-						Utilitaires.METHOD_POST, Utilitaires.buildInfo(Utilitaires.TOKEN_VALUE, result));
+						Utilitaires.METHOD_POST,
+						Utilitaires.buildMsg(Utilitaires.TOKEN_VALUE, result, Utilitaires.RESULT));
 				Integer val = null != mapReponse ? (Integer) mapReponse.get(Utilitaires.GOOD) : 0;
 				goodVal = val.toString();
 				Integer index = j + 1;
@@ -75,7 +77,7 @@ public class MastermindService {
 		for (int i = 0; i < 10; i++) {
 			chaine = Utilitaires.padding("", sizeValue.intValue(), i);
 			Map<String, Object> mapReponse = Utilitaires.sendWithMsgBody(Utilitaires.URL_TEST, Utilitaires.METHOD_POST,
-					Utilitaires.buildInfo(Utilitaires.TOKEN_VALUE, chaine));
+					Utilitaires.buildMsg(Utilitaires.TOKEN_VALUE, chaine, Utilitaires.RESULT));
 			Integer good = null != mapReponse ? (Integer) mapReponse.get(Utilitaires.GOOD) : 0;
 			if (good > 0) {
 				for (int m = 0; m < good; m++) {
