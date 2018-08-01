@@ -175,13 +175,9 @@ public class Utilitaires {
 	 * @throws IOException
 	 */
 	public static String getTestResult(String result) throws IOException {
-		if(result != "53375480") {
 		Map<String, Object> mapReponse = send(URL_TEST, METHOD_POST, buildMsg(TOKEN_VALUE, result, RESULT));
-		Integer val = null != mapReponse ? (Integer) mapReponse.get(GOOD) : 0;
+		Integer val = (null != mapReponse && null != mapReponse.get(GOOD)) ? (Integer) mapReponse.get(GOOD) : 0;
 		return val.toString();
-		} else {
-			return "8";
-		}
 	}
 
 	/**
