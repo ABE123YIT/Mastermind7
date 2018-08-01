@@ -11,4 +11,4 @@ script:
 - mvn cobertura:cobertura
 
 after_success:
-- bash <(curl -s https://codecov.io/bash) -t d25d7c42-7a9b-4dea-940c-0b754bcc7640
+- bash <(curl -s https://codecov.io/bash)
