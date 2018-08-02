@@ -15,7 +15,7 @@ public class MainTest {
 	@Test
 	public void mainTest() throws IOException {
 //		Integer sizeValue = Utilitaires.getSize();
-		String result = MastermindService.execute(null);
+		String result = MastermindService.execute(8);
 		assertNotEquals(result, "");
 	}
 	
