@@ -2,12 +2,9 @@ language: java
 jdk:
 - oraclejdk8
 install:
-- mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+- mvn install -Dmaven.javadoc.skip=true -B -V
 script:
-- mvn test 
 - mvn cobertura:cobertura
 
-sudo: false # faster builds
- 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
