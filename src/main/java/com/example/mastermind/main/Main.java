@@ -17,7 +17,7 @@ public class Main {
 		logger.log(Level.INFO, null, "DEBUT : " + new Timestamp(new Date().getTime()));
 		Integer sizeValue = Utilitaires.getSize();
 		if(null != sizeValue) {
-			MastermindService.execute(sizeValue);
+			logger.log(Level.INFO, null, "Le code secret est : " + MastermindService.execute(sizeValue));
 		}
 		logger.log(Level.INFO, null, "FIN " + new Timestamp(new Date().getTime()));
 	}
