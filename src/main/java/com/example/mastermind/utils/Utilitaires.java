@@ -13,6 +13,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Utilitaires {
 
+	public static final String[] CHARS_AUTHORIZED = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C",
+			"D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X",
+			"Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
+			"t", "u", "v", "w", "x", "y", "z" };
+//	public static final String[] CHARS_AUTHORIZED = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 	public static final String URL_TEST = "http://172.16.37.129/api/test";
 	public static final String URL_START = "http://172.16.37.129/api/start";
 	public static final String METHOD_POST = "POST";
@@ -42,7 +47,7 @@ public class Utilitaires {
 	 * @param url
 	 * @param mtd
 	 * @param msg
-	 * @return 
+	 * @return
 	 * @throws IOException
 	 */
 	public static Map<String, Object> send(String url, String mtd, String msg) throws IOException {
@@ -156,7 +161,7 @@ public class Utilitaires {
 	 * @param crt
 	 * @return
 	 */
-	public static String padding(String str, int nbr, int crt) {
+	public static String padding(String str, int nbr, String crt) {
 		StringBuilder sb = new StringBuilder(str);
 		int sbLength = sb.length();
 		if (nbr > 0 && nbr > sbLength) {
@@ -191,7 +196,7 @@ public class Utilitaires {
 		if (null != mapReponseStart.get(SIZE)) {
 			return (Integer) mapReponseStart.get(Utilitaires.SIZE);
 		}
-		return 8;
+		return null;
 	}
 
 }

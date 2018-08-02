@@ -22,13 +22,13 @@ public class MastermindService {
 	 */
 	public static String execute(Integer sizeValue) throws IOException {
 		String result = "";
-		List<Integer> valuesGuess = filterValues(sizeValue);
+		List<String> valuesGuess = filterValues(sizeValue);
 		String goodVal = "";
 		String[] tab = Utilitaires.setTab(sizeValue);
 		for (Integer j = 0; j < sizeValue; j++) {
 			int i = 0;
 			while (!valuesGuess.isEmpty()) {
-				tab[j] = valuesGuess.get(i).toString();
+				tab[j] = valuesGuess.get(i);
 				result = Utilitaires.tabToString(tab);
 				goodVal = Utilitaires.getTestResult(result);
 				Integer index = j + 1;
@@ -48,15 +48,15 @@ public class MastermindService {
 	 * @return
 	 * @throws IOException
 	 */
-	private static List<Integer> filterValues(Integer sizeValue) throws IOException {
-		List<Integer> valuesGuess = new ArrayList<>();
+	private static List<String> filterValues(Integer sizeValue) throws IOException {
+		List<String> valuesGuess = new ArrayList<>();
 		String chaine = "";
-		for (int i = 0; i < 10; i++) {
-			chaine = Utilitaires.padding("", sizeValue.intValue(), i);
+		for (String crt : Utilitaires.CHARS_AUTHORIZED) {
+			chaine = Utilitaires.padding("", sizeValue.intValue(), crt);
 			Integer good = Integer.parseInt(Utilitaires.getTestResult(chaine));
 			if (good > 0) {
 				for (int m = 0; m < good; m++) {
-					valuesGuess.add(i);
+					valuesGuess.add(crt);
 				}
 			}
 			if (sizeValue.equals(valuesGuess.size())) {
