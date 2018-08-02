@@ -9,7 +9,7 @@ import org.junit.Test;
 public class MastermindServiceTest {
 
 	@Test
-	public void contextLoads() throws IOException {
+	public void executeTest() throws IOException {
 		assertNull(null);
 	}
 }
