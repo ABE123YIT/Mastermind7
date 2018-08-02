@@ -23,21 +23,25 @@ public class MastermindService {
 	public static String execute(Integer sizeValue) throws IOException {
 		String result = "";
 		List<String> valuesGuess = filterValues(sizeValue);
-		String goodVal = "";
-		String[] tab = Utilitaires.setTab(sizeValue);
-		for (Integer j = 0; j < sizeValue; j++) {
-			int i = 0;
-			while (!valuesGuess.isEmpty()) {
-				tab[j] = valuesGuess.get(i);
-				result = Utilitaires.tabToString(tab);
-				goodVal = Utilitaires.getTestResult(result);
-				Integer index = j + 1;
-				if (goodVal.equals(index.toString())) {
-					valuesGuess.remove(i);
-					break;
+		if(valuesGuess.size() > 1) {
+			String goodVal = "";
+			String[] tab = Utilitaires.setTab(sizeValue);
+			for (Integer j = 0; j < sizeValue; j++) {
+				int i = 0;
+				while (!valuesGuess.isEmpty()) {
+					tab[j] = valuesGuess.get(i);
+					result = Utilitaires.tabToString(tab);
+					goodVal = Utilitaires.getTestResult(result);
+					Integer index = j + 1;
+					if (goodVal.equals(index.toString())) {
+						valuesGuess.remove(i);
+						break;
+					}
+					i++;
 				}
-				i++;
 			}
+		}else if(valuesGuess.size() == 1){
+			result = Utilitaires.padding("", sizeValue, valuesGuess.get(0));
 		}
 		return result;
 	}
@@ -54,7 +58,10 @@ public class MastermindService {
 		for (String crt : Utilitaires.CHARS_AUTHORIZED) {
 			chaine = Utilitaires.padding("", sizeValue.intValue(), crt);
 			Integer good = Integer.parseInt(Utilitaires.getTestResult(chaine));
-			if (good > 0) {
+			if(good == sizeValue) {
+				valuesGuess.add(crt);
+				return valuesGuess;
+			}else if (good > 0) {
 				for (int m = 0; m < good; m++) {
 					valuesGuess.add(crt);
 				}
